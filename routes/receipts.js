@@ -13,6 +13,6 @@ router.post("/process", controller.processReceipt);
  *  Endpoint: Get Points
  *  Response: A JSON object containing the number of points awarded.
  */
-router.get("/:id/points", controller.getReceiptPoints);
+router.get("/:id/points", controller.getPoints);
 
 export default router;
