@@ -1,15 +1,10 @@
-import { v4 as uuidv4 } from "uuid";
-import calculatePoints from "../functions/receiptFunctions.js";
+const { v4: uuidv4 } = require("uuid");
+const calculatePoints = require("../functions/receiptFunctions.js");
 
 const receipts = {};
 
 // Takes in a JSON receipt and returns a JSON object with an ID
 const processReceipt = (req, res) => {
-  // Request body is required
-  if (!req.body || Object.keys(req.body).length === 0) {
-    return res.status(400).json({ error: "The receipt is invalid" });
-  }
-
   const receipt = req.body;
   const id = uuidv4();
 
@@ -23,10 +18,6 @@ const processReceipt = (req, res) => {
 
 // Looks up receipt by id and returns points associated to receipt
 const getPoints = (req, res) => {
-  if (!req.params.id) {
-    return res.status(400).json({ error: "ID parameter is required" });
-  }
-
   const receipt = receipts[req.params.id];
 
   if (!receipt) {
@@ -36,4 +27,4 @@ const getPoints = (req, res) => {
   res.status(200).json({ points: receipt.points });
 };
 
-export default { processReceipt, getPoints };
+module.exports = { processReceipt, getPoints };

@@ -1,11 +1,7 @@
-import express from "express";
-import router from "./routes/receipts.js";
+const createServer = require("./server");
 
-const app = express();
 const PORT = 8000;
-
-app.use(express.json());
-app.use("/receipts", router);
+const app = createServer();
 
 app.get("/", (req, res) => {
   res.send("Hello from Backend!");
