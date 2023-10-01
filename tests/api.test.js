@@ -1,8 +1,11 @@
 const supertest = require("supertest");
 const createServer = require("../server.js");
 const receipts = require("../examples/exampleReceipts.js");
+const { v4: uuidv4 } = require("uuid");
+const router = require("../routes/receipts.js");
 
 const server = createServer();
+server.use("/receipts", router);
 
 receipts.forEach((receipt) => {
   describe(`${receipt.retailer}:`, () => {
@@ -21,13 +24,12 @@ receipts.forEach((receipt) => {
       test("testProcessReceipt", async () => {
         const res = await supertest(server)
           .post("/receipts/process")
-          .send(receipt)
           .set("Accept", "application/json")
+          .send(receipt)
           .expect(200)
           .then((res) => {
             expect(res.body).toBeDefined();
             receiptId = res.body.id;
-            console.log({ id: receiptId });
           });
       });
     });
@@ -46,18 +48,10 @@ receipts.forEach((receipt) => {
           });
       });
 
-      test("testGetPointsIdMissing", async () => {
-        const res = await supertest(server)
-          .get(`/receipts/points`)
-          .expect(400)
-          .then((res) => {
-            expect(res.body.error).toBe("ID parameter is required");
-          });
-      });
-
       test("testGetPointsIdNotFound", async () => {
+        let randomId = uuidv4();
         const res = await supertest(server)
-          .get("/receipts/incorrectId/points")
+          .get(`/receipts/${randomId}/points`)
           .expect(404)
           .then((res) => {
             expect(res.body.error).toBe("No receipt found for that id");

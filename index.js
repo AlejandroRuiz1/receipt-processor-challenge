@@ -1,11 +1,10 @@
 const createServer = require("./server");
+const router = require("./routes/receipts.js");
 
 const PORT = 8000;
 const app = createServer();
 
-app.get("/", (req, res) => {
-  res.send("Hello from Backend!");
+app.listen(PORT, () => {
+  app.use("/receipts", router);
+  console.log("Server is listening to port:", PORT);
 });
-
-// TODO: handle server errors
-app.listen(PORT, () => console.log("Server is listening to port:", PORT));

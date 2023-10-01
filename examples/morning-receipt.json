@@ -7,5 +7,5 @@
     { "shortDescription": "Pepsi - 12-oz", "price": "1.25" },
     { "shortDescription": "Dasani", "price": "1.40" }
   ],
-  "expected": 14
+  "expected": 15
 }

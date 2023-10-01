@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
-const calculatePoints = require("../functions/receiptFunctions.js");
+const calculatePoints = require("../functions/calculatePoints.js");
 
 const receipts = {};
 
@@ -18,13 +18,21 @@ const processReceipt = (req, res) => {
 
 // Looks up receipt by id and returns points associated to receipt
 const getPoints = (req, res) => {
-  const receipt = receipts[req.params.id];
+  const id = req.params.id;
+  const receipt = receipts[id];
 
   if (!receipt) {
     return res.status(404).json({ error: "No receipt found for that id" });
   }
 
+  // Receipt found return points
   res.status(200).json({ points: receipt.points });
 };
 
-module.exports = { processReceipt, getPoints };
+// --- Additional ---
+// Returns json object with all receipts
+const getAllReceipts = (req, res) => {
+  return res.status(200).json({ receipts });
+};
+
+module.exports = { processReceipt, getPoints, getAllReceipts };

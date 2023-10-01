@@ -4,7 +4,7 @@ const controller = require("../controllers/receiptController.js");
 const router = express.Router();
 
 /*
- *  Endpoint: Process Receipts
+ *  POST: Process Receipts
  *  Response: JSON containing an id for the receipt.
  */
 router.post(
@@ -29,18 +29,16 @@ router.post(
 );
 
 /*
- *  Endpoint: Get Points
+ *  GET: Get Points
  *  Response: A JSON object containing the number of points awarded.
  */
-router.get(
-  "/:id/points",
-  (req, res, next) => {
-    if (!req.params.id || req.params.id.length === 0) {
-      return res.status(400).json({ error: "ID parameter is required" });
-    }
-    next();
-  },
-  controller.getPoints
-);
+router.get("/:id/points", controller.getPoints);
+
+/*
+ * --- Additional endpoint ---
+ *  GET: Get all receipts
+ *  Response: A JSON object containing all receipts.
+ */
+router.get("/", controller.getAllReceipts);
 
 module.exports = router;
